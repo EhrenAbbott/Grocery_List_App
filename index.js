@@ -8,6 +8,7 @@ const appSettings = {
 const app = initializeApp(appSettings)
 const database = getDatabase(app)
 const shoppingListInDB = ref(database, "items")
+const obtainedList = []
 
 
 const inputFieldEl = document.getElementById("input-field")
@@ -50,6 +51,10 @@ function clearInputFieldEl() {
     inputFieldEl.value = ""
 }
 
+function addToObtainedList(){ 
+    console.log(obtainedList)
+}
+
 function appendItemToShoppingListEl(item) {
     let itemID = item[0]
     let itemValue = item[1]
@@ -58,6 +63,8 @@ function appendItemToShoppingListEl(item) {
     
     newEl.textContent = itemValue
     
+    //Replace this with addToObtsinedList
+    //Put code block below on event listener applied to every item in obtained list
     newEl.addEventListener("click", function() {
         let exactLocationOfItemInDB = ref(database, `items/${itemID}`)
         
@@ -66,3 +73,12 @@ function appendItemToShoppingListEl(item) {
     
     shoppingListEl.append(newEl)
 }
+
+//TO-DO 
+// - make it so that you can't add a blank entry 
+// - add pop up message if same message is added twice 
+// - have obtained items added to separate list 
+//      - add delete button to this section in case of user errors 
+// make it so that items in list can be delete by holding buttons down
+// fix bug that delays the rerender after last item is deleted from list
+
