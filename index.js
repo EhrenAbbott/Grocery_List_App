@@ -8,6 +8,7 @@ const appSettings = {
 const app = initializeApp(appSettings)
 const database = getDatabase(app)
 const shoppingListInDB = ref(database, "items")
+const obtainedListInDB = ref(database, "obtained")
 const obtainedList = []
 
 
@@ -68,17 +69,17 @@ function appendItemToShoppingListEl(item) {
     
     newEl.textContent = itemValue
     
-    //Replace this with addToObtsinedList
-    //Put code block below on event listener applied to every item in obtained list
     newEl.addEventListener("click", function() {
         if (obtainedList.length === 0){ 
             addToObtainedList(newEl.innerText)
+            push(obtainedListInDB, newEl.innerText)
             obtainedListEl.append(listHeader)
             obtainedListEl.append(newEl)
             let exactLocationOfItemInDB = ref(database, `items/${itemID}`)
             remove(exactLocationOfItemInDB)
         } else {
             addToObtainedList(newEl.innerText)
+            push(obtainedListInDB, newEl.innerText)
             obtainedListEl.append(newEl)
             let exactLocationOfItemInDB = ref(database, `items/${itemID}`)
             remove(exactLocationOfItemInDB)
