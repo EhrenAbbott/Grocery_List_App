@@ -14,6 +14,7 @@ const obtainedList = []
 const inputFieldEl = document.getElementById("input-field")
 const addButtonEl = document.getElementById("add-button")
 const shoppingListEl = document.getElementById("shopping-list")
+const obtainedListEl = document.getElementById("obtained-list")
 
 addButtonEl.addEventListener("click", function() {
     let inputValue = inputFieldEl.value
@@ -51,28 +52,47 @@ function clearInputFieldEl() {
     inputFieldEl.value = ""
 }
 
-function addToObtainedList(){ 
+function addToObtainedList(item){ 
+    obtainedList.push(item)
     console.log(obtainedList)
 }
+
 
 function appendItemToShoppingListEl(item) {
     let itemID = item[0]
     let itemValue = item[1]
 
     let newEl = document.createElement("li")
+    let listHeader = document.createElement("p")
+    listHeader.innerText = "In cart:"
     
     newEl.textContent = itemValue
     
     //Replace this with addToObtsinedList
     //Put code block below on event listener applied to every item in obtained list
     newEl.addEventListener("click", function() {
-        let exactLocationOfItemInDB = ref(database, `items/${itemID}`)
-        
-        remove(exactLocationOfItemInDB)
-    })
-    
+        if (obtainedList.length === 0){ 
+            addToObtainedList(newEl.innerText)
+            obtainedListEl.append(listHeader)
+            obtainedListEl.append(newEl)
+            let exactLocationOfItemInDB = ref(database, `items/${itemID}`)
+            remove(exactLocationOfItemInDB)
+        } else {
+            addToObtainedList(newEl.innerText)
+            obtainedListEl.append(newEl)
+            let exactLocationOfItemInDB = ref(database, `items/${itemID}`)
+            remove(exactLocationOfItemInDB)
+
+
+        }
+    }, { once : true })
+
     shoppingListEl.append(newEl)
 }
+
+
+
+console.log(obtainedList)
 
 //TO-DO 
 // - make it so that you can't add a blank entry 
